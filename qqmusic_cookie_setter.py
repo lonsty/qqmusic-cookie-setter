@@ -108,7 +108,6 @@ def read_and_encrypt_settings() -> dict:
             yaml.dump(data=settings, stream=f, sort_keys=False)
 
     if settings.get('password') != '******':
-        print('debug')
         settings.update({'password': '******',
                          'encoded_password': encode(settings.get('secret_key'),
                                                     settings.get('password')).decode()})

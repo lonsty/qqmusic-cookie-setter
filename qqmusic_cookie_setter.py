@@ -125,7 +125,7 @@ def login_for_cookies() -> dict:
     :return: dict, user cookies
     """
     # Use Google Chrome driver
-    driver = webdriver.Chrome(SETTINGS.get('webdriver'), WEBDRIVER)
+    driver = webdriver.Chrome(SETTINGS.get('webdriver', WEBDRIVER))
     # Open https://y.qq.com in Chrome
     driver.get(HOST)
     # Open login page
@@ -205,6 +205,9 @@ def main():
             print(f'Cookies set successfully at {time.ctime()}')
     except KeyboardInterrupt:
         print('KeyboardInterrupt.')
+    except Exception as e:
+        print(e)
+        return 1
     return 0
 
 

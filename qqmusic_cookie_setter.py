@@ -230,7 +230,9 @@ def set_api_cookies(cookies: dict):
 
 def main():
     try:
-        cookies = get_api_cookies()
+        global SETTINGS
+        SETTINGS = read_and_encrypt_settings()
+        cookies = login_for_cookies()
         result = set_api_cookies(cookies)
         if result:
             print(f'Cookies set successfully at {time.ctime()}')

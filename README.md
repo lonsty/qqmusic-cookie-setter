@@ -20,7 +20,7 @@ $ git clone https://github.com/lonsty/qqmusic-cookie-setter
 
 ```shell
 $ cd qqmusic-cookie-setter
-$ pipenv install
+$ pip install -r requirements.txt
 ```
 
 ### 3. 首次运行并添加配置

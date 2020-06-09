@@ -1,3 +1,6 @@
 .idea/
 .drivers/
 settings.yml
+__pycache__/
+drivers/
+*.log

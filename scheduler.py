@@ -11,11 +11,13 @@ from qqmusic_cookie_setter import main
 if __name__ == '__main__':
     # Get the time when run command as "python3 scheduler.py HH:SS"
     if len(sys.argv) > 2:
-        sche_time = sys.argv[1]
+        sche_times = sys.argv[1:]
     else:
-        sche_time = "05:18"
+        # Run every day at 05:18, 13:18, 21:18
+        sche_times = ['05:18', '13:18', '21:18']
 
-    print(schedule.every().day.at(sche_time).do(main))
+    for t in sche_times:
+        print(schedule.every().day.at(t).do(main))
     # Run schedule task forever.
     while 1:
         schedule.run_pending()

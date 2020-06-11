@@ -1,6 +1,7 @@
 # @Author: allen
 # @Date: May 30 19:31 2020
 import base64
+import logging
 import random
 import time
 import sys
@@ -19,6 +20,15 @@ HEADERS = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
                          '(KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}
 TIMEOUT = 20
 SETTINGS = {}
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("scheduler.log"),
+        logging.StreamHandler()
+    ]
+)
 
 
 def retry(exceptions, tries=3, delay=1, backoff=2, logger=None):
@@ -141,7 +151,7 @@ def read_and_encrypt_settings() -> dict:
     return settings
 
 
-@retry(Exception)
+@retry(Exception, logger=logging)
 def login_for_cookies() -> dict:
     """
     Login to y.qq.com via selenium.
@@ -224,8 +234,7 @@ def set_api_cookies(cookies: dict):
     if resp.status_code == 200 and resp.json().get('result') == 100:
         return True
     else:
-        print(f'Cookies set failed.\nStatus Code: {resp.status_code}\nText: {resp.text}')
-        raise Exception('Get cookies failed.')
+        raise Exception(f'Cookies set failed.\nStatus Code: {resp.status_code}\nText: {resp.text}')
 
 
 def main():
@@ -233,11 +242,11 @@ def main():
         cookies = get_api_cookies()
         result = set_api_cookies(cookies)
         if result:
-            print(f'Cookies set successfully at {time.ctime()}')
+            logging.info(f'Cookies set successfully at {time.ctime()}')
     except KeyboardInterrupt:
-        print('KeyboardInterrupt.')
+        logging.info('KeyboardInterrupt')
     except Exception as e:
-        print(e)
+        logging.error(e)
         return 1
     return 0
 

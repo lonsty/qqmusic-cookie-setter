@@ -7,6 +7,7 @@ import time
 import sys
 from functools import wraps
 from getpass import getpass
+from pathlib import PurePath
 
 import requests
 import yaml
@@ -25,7 +26,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler("scheduler.log"),
+        logging.FileHandler(PurePath(__file__).parent.joinpath('scheduler.log')),
         logging.StreamHandler()
     ]
 )
